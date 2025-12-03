@@ -1,0 +1,23 @@
+body {
+    background-color: rgb(91, 156, 102);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+header {
+    background-color: aquamarine;
+    width: fit-content;
+    border: 3px solid rgb(12, 81, 121);
+    text-align: center;
+    padding: 20px;
+    border-radius: 20px;
+    margin: auto;
+}
+
+p {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+h2 {
+    text-align: center;
+}
