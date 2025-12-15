@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasky - Sistema de Gestión de Tareas</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i class='bx bxs-check-square'></i>
+                <h1>Tasky</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li class="nav-item active">
+                        <i class='bx bxs-dashboard'></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="nav-item">
+                        <i class='bx bx-task'></i>
+                        <span>Tasks</span>
+                    </li>
+                    <li class="nav-item">
+                        <i class='bx bx-calendar'></i>
+                        <span>Calendar</span>
+                    </li>
+                    <li class="nav-item">
+                        <i class='bx bx-group'></i>
+                        <span>Members</span>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="main-content-wrapper">
+            <header class="top-header">
+                <input type="text" placeholder="🔍 Search tasks" class="search-input" id="search-input">
+                <div class="header-actions">
+                    <i class='bx bx-message-square-dots'></i>
+                    <i class='bx bx-bell'></i>
+                    <div class="profile-pic">P</div> 
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <section class="controls-bar">
+                    <div class="filters">
+                        <button class="control-btn" id="preview-btn">Preview</button>
+                        <div class="filter-container" id="sort-container">
+                             <button class="control-btn" id="sort-btn">Sort (DATE)</button>
+                             <div id="sort-dropdown" class="filter-dropdown">
+                                <h4>Sort by:</h4>
+                                <div class="sort-option active" data-sort="date-asc">Due Date (Asc)</div>
+                                <div class="sort-option" data-sort="date-desc">Due Date (Desc)</div>
+                                <div class="sort-option" data-sort="priority">Priority (High to Low)</div>
+                            </div>
+                        </div>
+
+                        <div class="filter-container">
+                            <button class="control-btn" id="filter-btn">Filter</button>
+                            <div id="filter-dropdown" class="filter-dropdown">
+                                <h4>Filter by Priority:</h4>
+                                <div class="filter-option active" data-filter="all">Show All</div>
+                                <div class="filter-option" data-filter="High">High Priority</div>
+                                <div class="filter-option" data-filter="Medium">Medium Priority</div>
+                                <div class="filter-option" data-filter="Low">Low Priority</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="team-and-add">
+                        <div class="avatar-group">
+                            <img src="https://i.pravatar.cc/150?img=1" alt="User 1">
+                            <img src="https://i.pravatar.cc/150?img=2" alt="User 2">
+                            <span>+1</span>
+                        </div>
+                        <button id="add-task-btn-desktop" class="add-task-btn">+ Add task</button>
+                    </div>
+                </section>
+                
+                <select name="mobile-status-selector" id="mobile-status-selector" class="mobile-only-selector">
+                    <option value="in-progress-column">In Progress</option>
+                    <option value="completed-column">Completed Task</option>
+                    <option value="overdue-column">Over-Due</option>
+                </select>
+
+                <div class="task-columns-container">
+                    
+                    <div class="task-column" id="in-progress-column">
+                        <div class="column-header">
+                            <h2>In Progress (<span id="in-progress-count">0</span>)</h2>
+                            <button class="column-options"><i class='bx bx-dots-horizontal-rounded'></i></button>
+                        </div>
+                        <div class="task-list" data-status="In Progress">
+                            </div>
+                    </div>
+
+                    <div class="task-column" id="completed-column">
+                        <div class="column-header">
+                            <h2>Completed Task (<span id="completed-count">0</span>)</h2>
+                            <button class="column-options"><i class='bx bx-dots-horizontal-rounded'></i></button>
+                        </div>
+                        <div class="task-list" data-status="Completed Task">
+                            </div>
+                    </div>
+
+                    <div class="task-column" id="overdue-column">
+                        <div class="column-header">
+                            <h2>Over-Due (<span id="overdue-count">0</span>)</h2>
+                            <button class="column-options"><i class='bx bx-dots-horizontal-rounded'></i></button>
+                        </div>
+                        <div class="task-list" data-status="Over-Due">
+                            </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+        
+        <button id="add-task-btn" class="add-task-btn">+ Add task</button>
+    </div>
+    
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title">Add New Task</h2>
+            <form id="task-form">
+                <input type="hidden" id="task-id" value="">
+
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="3" required></textarea>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="priority">Priority:</label>
+                        <select id="priority" name="priority" required>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject/Category:</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="deliveryDate">Due Date:</label>
+                        <input type="date" id="deliveryDate" name="deliveryDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryTime">Time:</label>
+                        <input type="time" id="deliveryTime" name="deliveryTime">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select id="status" name="status" required>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed Task">Completed Task</option>
+                            <option value="Over-Due">Over-Due</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-task-btn">Add Task</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="view-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn view-close-btn">&times;</span>
+            <h2 id="view-title">Task Title Placeholder</h2>
+            
+            <div class="view-details">
+                <p><strong>Priority:</strong> <span id="view-priority" class="tag"></span></p>
+                <p><strong>Subject:</strong> <span id="view-subject" class="tag"></span></p>
+                <p><strong>Status:</strong> <span id="view-status"></span></p>
+            </div>
+
+            <div class="view-description-box">
+                <h4>Description</h4>
+                <p id="view-description">Description placeholder...</p>
+            </div>
+
+            <div class="view-dates">
+                <p><strong>Due Date:</strong> <span id="view-deliveryDate"></span></p>
+                <p><strong>Time:</strong> <span id="view-deliveryTime"></span></p>
+            </div>
+            
+            <div class="view-actions-bottom">
+                <button id="view-edit-btn" class="add-task-btn">Edit Task</button>
+                <button id="view-delete-btn" class="add-task-btn delete-btn">Delete Task</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
